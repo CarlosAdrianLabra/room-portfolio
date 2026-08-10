@@ -302,12 +302,32 @@ let btnAbout,
   marcoHombre,
   pengu,
   placaGithub,
-  placaLinkin,
+  placaLinkedin,
   placaTft,
   placaYoutube,
   poro,
   mikasa,
-  taza;
+  taza,
+  sillaTop;
+
+const objetosAnimados = [
+  "Boton",
+  "Placa",
+  "Letra",
+  "Gata",
+  "Pengu",
+  "Poro",
+  "Taza",
+  "Mikasa",
+];
+
+const giroHover = {
+  Placadegithub: { x: Math.PI / 8 },
+  Placadelinkedin: { x: Math.PI / 8 },
+  Placayoutube: { x: Math.PI / 8 },
+  //Placatft: { z: Math.PI / 16 },
+};
+const esAnimado = (nombre) => objetosAnimados.some((n) => nombre.includes(n));
 
 loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
   glb.scene.traverse((child) => {
@@ -331,10 +351,91 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
         );
         child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
       }
+      if (esAnimado(child.name)) {
+        console.log(
+          child.name,
+          child.rotation.x.toFixed(2),
+          child.rotation.y.toFixed(2),
+          child.rotation.z.toFixed(2),
+        );
+        raycarterObjects.push(child);
+        child.userData.initialScale = new THREE.Vector3().copy(child.scale);
+        child.userData.initialPosition = new THREE.Vector3().copy(
+          child.position,
+        );
+        child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
+      }
 
       if (child.name.includes("Botoncontact")) {
         btnContact = child;
         child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Botonwork")) {
+        btnWork = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("BotonAbout")) {
+        btnAbout = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Botonskills")) {
+        btnSkills = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Placadegithub")) {
+        placaGithub = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Placadelinkedin")) {
+        placaLinkedin = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Placatft")) {
+        placaTft = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("Placayoutube")) {
+        placaYoutube = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraJ")) {
+        letraJ = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraA")) {
+        letraA = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraG1")) {
+        letraG = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraG2")) {
+        letraG2 = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraE")) {
+        letraE = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraR")) {
+        letraR = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraL")) {
+        letraL = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraO")) {
+        letraO = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("LetraT")) {
+        letraT = child;
+        child.scale.set(0, 0, 0);
+      }
+      if (child.name.includes("SillaTOP")) {
+        sillaTop = child;
       }
       if (child.name.includes("Vidrio")) {
         child.material = glassMaterial;
@@ -409,6 +510,7 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
   });
   scene.add(glb.scene);
   playIntroAnimation();
+  animarSilla();
 });
 
 function playIntroAnimation() {
@@ -418,10 +520,142 @@ function playIntroAnimation() {
       ease: "back.out(1.8)",
     },
   });
-  t1.to(btnContact.scale, {
+  t1.to(btnWork.scale, {
     z: 1.38,
     x: 1.38,
     y: 1.38,
+  })
+    .to(
+      btnAbout.scale,
+      {
+        z: 1.38,
+        x: 1.38,
+        y: 1.38,
+      },
+      "-=0.6",
+    )
+    .to(
+      btnSkills.scale,
+      {
+        z: 1.38,
+        x: 1.38,
+        y: 1.38,
+      },
+      "-=0.6",
+    )
+    .to(
+      btnContact.scale,
+      {
+        z: 1.38,
+        x: 1.38,
+        y: 1.38,
+      },
+      "-=0.6",
+    );
+
+  const t2 = gsap.timeline({
+    defaults: { duration: 0.8, ease: "back.out(1.8)" },
+  });
+
+  t2.to(placaGithub.scale, { x: 1, y: 1, z: 1 })
+    .to(placaLinkedin.scale, { x: 1, y: 1, z: 1 }, "-=0.6")
+    .to(placaYoutube.scale, { x: 1, y: 1, z: 1 }, "-=0.6")
+    .to(placaTft.scale, { x: 1, y: 1, z: 1 }, "-=0.6");
+
+  const t3 = gsap.timeline({
+    defaults: { duration: 0.8, ease: "back.out(1.8)" },
+  });
+
+  t3.to(letraJ.scale, {
+    x: letraJ.userData.initialScale.x,
+    y: letraJ.userData.initialScale.y,
+    z: letraJ.userData.initialScale.z,
+  })
+    .to(
+      letraA.scale,
+      {
+        x: letraA.userData.initialScale.x,
+        y: letraA.userData.initialScale.y,
+        z: letraA.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraG.scale,
+      {
+        x: letraG.userData.initialScale.x,
+        y: letraG.userData.initialScale.y,
+        z: letraG.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraG2.scale,
+      {
+        x: letraG2.userData.initialScale.x,
+        y: letraG2.userData.initialScale.y,
+        z: letraG2.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraE.scale,
+      {
+        x: letraE.userData.initialScale.x,
+        y: letraE.userData.initialScale.y,
+        z: letraE.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraR.scale,
+      {
+        x: letraR.userData.initialScale.x,
+        y: letraR.userData.initialScale.y,
+        z: letraR.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraL.scale,
+      {
+        x: letraL.userData.initialScale.x,
+        y: letraL.userData.initialScale.y,
+        z: letraL.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraO.scale,
+      {
+        x: letraO.userData.initialScale.x,
+        y: letraO.userData.initialScale.y,
+        z: letraO.userData.initialScale.z,
+      },
+      "-=0.6",
+    )
+    .to(
+      letraT.scale,
+      {
+        x: letraT.userData.initialScale.x,
+        y: letraT.userData.initialScale.y,
+        z: letraT.userData.initialScale.z,
+      },
+      "-=0.6",
+    );
+}
+
+function animarSilla() {
+  const base = sillaTop.rotation.y;
+
+  sillaTop.rotation.y = base - Math.PI / 12;
+
+  gsap.to(sillaTop.rotation, {
+    y: base + Math.PI / 12,
+    duration: 4,
+    yoyo: true,
+    repeat: -1,
+    ease: "sine.inOut",
   });
 }
 
@@ -470,7 +704,9 @@ function playHoverAnimation(object, isHovering) {
   gsap.killTweensOf(object.rotation);
   gsap.killTweensOf(object.position);
 
-  const conGiro = object.name.includes("Placa");
+  const giro = Object.entries(giroHover).find(([nombre]) =>
+    object.name.includes(nombre),
+  )?.[1];
 
   if (isHovering) {
     gsap.to(object.scale, {
@@ -480,9 +716,13 @@ function playHoverAnimation(object, isHovering) {
       duration: 0.5,
       ease: "bounce.out(1.8)",
     });
-    if (conGiro) {
+    if (giro) {
+      const destino = {};
+      Object.entries(giro).forEach(([eje, cantidad]) => {
+        destino[eje] = object.userData.initialRotation[eje] + cantidad;
+      });
       gsap.to(object.rotation, {
-        x: object.userData.initialRotation.x + Math.PI / 8,
+        ...destino,
         duration: 0.5,
         ease: "bounce.out(1.8)",
       });
@@ -495,9 +735,13 @@ function playHoverAnimation(object, isHovering) {
       duration: 0.3,
       ease: "bounce.out(1.8)",
     });
-    if (conGiro) {
+    if (giro) {
+      const destino = {};
+      Object.keys(giro).forEach((eje) => {
+        destino[eje] = object.userData.initialRotation[eje];
+      });
       gsap.to(object.rotation, {
-        x: object.userData.initialRotation.x + Math.PI / 8,
+        ...destino,
         duration: 0.3,
         ease: "bounce.out(1.8)",
       });
@@ -531,6 +775,16 @@ const render = () => {
 
     if (currentIntersects.length > 0) {
       const currentInterserctObject = currentIntersects[0].object;
+
+      if (esAnimado(currentInterserctObject.name)) {
+        if (currentInterserctObject !== currentHoveredObject) {
+          if (currentHoveredObject) {
+            playHoverAnimation(currentHoveredObject, false);
+          }
+          playHoverAnimation(currentInterserctObject, true);
+          currentHoveredObject = currentInterserctObject;
+        }
+      }
 
       if (
         currentInterserctObject.name.includes("Boton") ||
