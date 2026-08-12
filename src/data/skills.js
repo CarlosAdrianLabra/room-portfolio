@@ -12,63 +12,64 @@
    ========================================================= */
 
 export const intro =
-  "Four years shipping to real users on a visual platform, now rebuilding that same skill set in code.";
+  "Five years shipping to real users on a visual platform, now rebuilding that same skill set in code.";
 
 export const dominios = [
   {
     nombre: "Frontend",
-    estado: "construyendo",
+    estado: "produccion",
     evidencia: "Sentinel · this site",
     nota: "Where the last year of deliberate practice went.",
-    tecnologias: ["React", "Next.js", "TypeScript", "SCSS"],
+    tecnologias: ["React", "Next.js", "TypeScript", "SCSS", "HTML", "CSS"],
   },
   {
     nombre: "Backend & data",
-    estado: "construyendo",
+    estado: "produccion",
     evidencia: "Sentinel",
-    nota: "Schema design and type-safe APIs, built solo.",
+    nota: "Schema design and type safe APIs, built solo.",
     tecnologias: ["Node.js", "Express", "Prisma", "MongoDB"],
   },
   {
     nombre: "Cloud & integrations",
     estado: "produccion",
-    evidencia: "4 years · PrepaNáhuac · EC Rubio",
-    nota: "Wiring third-party systems together, with logs and alerts to prove it.",
-    tecnologias: [
-      "AWS Lambda",
-      "API Gateway",
-      "CloudWatch",
-      "MS Dynamics",
-      "Stripe",
-      "SendGrid",
-      "Webhooks",
-    ],
+    evidencia: "PrepaNáhuac · Dentalia",
+    nota: "Wiring third party systems together, with logs and alerts to prove it.",
+    tecnologias: ["AWS Lambda", "API Gateway", "CloudWatch", "Webhooks"],
   },
   {
     nombre: "3D & interactive",
-    estado: "construyendo",
+    estado: "produccion",
     evidencia: "This site",
     nota: "Newest addition. You're looking at the proof.",
-    tecnologias: ["Three.js", "Blender", "GSAP"],
+    tecnologias: ["Three.js", "GSAP"],
+  },
+  {
+    nombre: "AI",
+    estado: "produccion",
+    evidencia: "Sentinel · this site",
+    nota: "Models running locally, directed and reviewed like any other work I'd",
+    tecnologias: ["Ollama", "qwen3-coder", "OpenCode", "ClaudeCode"],
   },
   {
     nombre: "No-code",
     estado: "produccion",
-    evidencia: "4 years · 8 apps · hundreds of daily users",
+    evidencia: "9 apps · hundreds of daily users",
     nota: "Senior level. Where I learned to ship on a deadline.",
     tecnologias: ["Bubble.io"],
   },
+  {
+    nombre: "Tooling",
+
+    tecnologias: ["Git", "Github", "VS Code", "Postman", "Figma", "Blender"],
+  },
 ];
 
-/* Lo que no es tecnología. Sostiene tu pista de Tech Lead / TPM,
-   que en Work solo se ve implícito. Si no la quieres, borra este
-   bloque completo: el renderizador la omite si no existe. */
 export const practicas = {
   titulo: "How I work",
   puntos: [
     "Turning business requirements into specs a team can estimate",
+    "Running client calls",
     "Setting timelines and defending them",
-    "Running client calls without a manager in the room",
-    "Reviewing other people's work before it ships",
+    "Reviewing work before it ships, mine and other people's",
   ],
 };

@@ -9,17 +9,19 @@
    ========================================================= */
 
 export const perfil = {
-  avatar: "/images/avatar.webp",
+  avatar: "/images/boxelCarlos.webp",
 
   // BORRADOR — reescríbelo con tus palabras.
   parrafos: [
-    "I'm Carlos Adrián. I spent four years at an agency turning business problems into shipped software — first building it, then leading the team that did.",
-    "Now I'm doing the same thing closer to the metal: conventional code, my own architecture decisions, no platform in between.",
+    "I'm Carlos Adrián. I spent four years at an agency taking software from the first client conversation to production. I started out building it and eventually led the team delivering it.",
+    "The work I kept gravitating toward was integrations, connecting systems that weren't built to talk to each other, understanding what the client actually needed, and turning that into something that worked.",
+    "Today I work across the stack: Node.js and AWS on the backend, React and TypeScript on the frontend, and 3D when it adds something meaningful, like this room.",
   ],
 
   datos: [
     { icono: "ubicacion", texto: "Mexico City" },
-    { icono: "codigo", texto: "Fullstack & 3D web" },
+    { icono: "codigo", texto: "Software & Integrations" },
+    { icono: "cubo", texto: "Interactive 3D" },
     { icono: "trabajo", texto: "Open to work" },
   ],
 };

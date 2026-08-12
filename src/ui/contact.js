@@ -18,7 +18,7 @@ const crearDisponibilidad = () => {
   cont.append(bloque);
 
   if (disponibilidad.buscando?.length) {
-    cont.append(el("p", "contacto__sub", "Currently interviewing for:"));
+    cont.append(el("p", "contacto__sub", ""));
     const lista = el("ul", "contacto__busco");
     disponibilidad.buscando.forEach((b) => lista.append(el("li", null, b)));
     cont.append(lista);

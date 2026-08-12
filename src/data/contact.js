@@ -10,14 +10,12 @@ export const disponibilidad = {
   disponible: true,
   texto: "Available for work",
   buscando: [
-    "Fullstack roles — React / Node / TypeScript",
-    "Technical lead / TPM positions",
-    "Freelance builds, scoped and quoted directly",
+    "Full-time, contract, or something you're still shaping. Tell me what you have in mind.",
   ],
 };
 
 export const correo = {
-  direccion: "", // TODO: tu correo real
+  direccion: "carlosadrianlabragranados@gmail.com|",
   asunto: "Hola Carlos", // pre-llena el subject del mailto
   lead: "The fastest way is email.",
 };
@@ -32,5 +30,5 @@ export const enlaces = [
     url: "https://github.com/CarlosAdrianLabra",
   },
   // Descomenta cuando el PDF exista en /public/:
-  // { texto: "CV (PDF)", url: "/cv-carlos-labra.pdf" },
+  { texto: "CV (PDF)", url: "/CV/Carlos_Labra_Resume_Solutions_Engineer.pdf" },
 ];
