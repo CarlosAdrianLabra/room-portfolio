@@ -3,6 +3,10 @@ import "./style.scss";
 import { OrbitControls } from "./utils/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { initModales } from "./ui/modales.js";
+import { crearMaterialMezcla, initTema } from "./ui/tema.js";
+import { initAudio } from "./ui/audio.js";
+import { initCarga } from "./ui/carga.js";
 import gsap from "gsap";
 
 const canvas = document.querySelector("#experience-canvas");
@@ -11,70 +15,26 @@ const sizes = {
   height: window.innerHeight,
 };
 
-const modals = {
-  work: document.querySelector(".modal.work"),
-  about: document.querySelector(".modal.about"),
-  contact: document.querySelector(".modal.contact"),
-  skills: document.querySelector(".modal.skills"),
-};
-
 let touchHappend = false;
-document.querySelectorAll(".modal-exit-buton").forEach((button) => {
-  button.addEventListener(
-    "touchend",
-    (e) => {
-      touchHappend = true;
-      e.preventDefault();
-      const modal = e.target.closest(".modal");
-      hideModal(modal);
-    },
-    { passive: false },
-  );
-  button.addEventListener(
-    "click",
-    (e) => {
-      if (touchHappend) return;
-      e.preventDefault();
-      const modal = e.target.closest(".modal");
-      hideModal(modal);
-    },
-    { passive: false },
-  );
-});
-
 let isModalOpen = false;
 
-const showModal = (modal) => {
-  modal.style.display = "block";
-  isModalOpen = true;
-  controls.enabled = false;
+const modales = initModales({
+  alAbrir: () => {
+    isModalOpen = true;
+    controls.enabled = false;
 
-  if (currentHoveredObject) {
-    playHoverAnimation(currentHoveredObject, false);
-    currentHoveredObject = null;
-  }
-  document.body.style.cursor = "default";
-  currentIntersects = [];
-
-  gsap.set(modal, { opacity: 0 });
-
-  gsap.to(modal, {
-    opacity: 1,
-    duration: 0.5,
-  });
-};
-
-const hideModal = (modal) => {
-  isModalOpen = false;
-  controls.enabled = true;
-  gsap.to(modal, {
-    opacity: 0,
-    duration: 0.5,
-    onComplete: () => {
-      modal.style.display = "none";
-    },
-  });
-};
+    if (currentHoveredObject) {
+      playHoverAnimation(currentHoveredObject, false);
+      currentHoveredObject = null;
+    }
+    document.body.style.cursor = "default";
+    currentIntersects = [];
+  },
+  alCerrar: () => {
+    isModalOpen = false;
+    controls.enabled = true;
+  },
+});
 
 const xAxisFans = [];
 const yAxisFans = [];
@@ -92,19 +52,29 @@ const socialLinks = {
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+const musica = initAudio();
+
+const carga = initCarga({
+  alClic: () => musica?.arrancar(),
+  alEntrar: () => {
+    playIntroAnimation();
+    animarSilla();
+    musica?.arrancar();
+  },
+});
 
 // Loaders
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(carga.manager);
 
 // Model Loader
 
 const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("/draco/");
 
-const loader = new GLTFLoader();
+const loader = new GLTFLoader(carga.manager);
 loader.setDRACOLoader(dracoLoader);
 
-const enviromentMap = new THREE.CubeTextureLoader()
+const enviromentMap = new THREE.CubeTextureLoader(carga.manager)
   .setPath("textures/skybox/")
   .load(["px.webp", "nx.webp", "py.webp", "ny.webp", "pz.webp", "nz.webp"]);
 
@@ -136,11 +106,21 @@ Object.entries(textureMap).forEach(([key, paths]) => {
   const dayTexture = textureLoader.load(paths.day);
   dayTexture.flipY = false;
   dayTexture.colorSpace = THREE.SRGBColorSpace;
+  dayTexture.minFilter = THREE.LinearFilter;
   loadedTextures.day[key] = dayTexture;
   const nightTexture = textureLoader.load(paths.night);
   nightTexture.flipY = false;
   nightTexture.colorSpace = THREE.SRGBColorSpace;
+  nightTexture.minFilter = THREE.LinearFilter;
   loadedTextures.night[key] = nightTexture;
+});
+
+const materialesCuarto = {};
+Object.keys(textureMap).forEach((key) => {
+  materialesCuarto[key] = crearMaterialMezcla(
+    loadedTextures.day[key],
+    loadedTextures.night[key],
+  );
 });
 
 const glassMaterial = new THREE.MeshPhysicalMaterial({
@@ -252,7 +232,10 @@ window.addEventListener(
   { passive: false },
 );
 
-function handleRaycasterInteraction() {
+function handleRaycasterInteraction(e) {
+  if (isModalOpen) return;
+  if (e?.target?.closest?.("[data-modal], .ui-capa")) return;
+
   if (currentIntersects.length > 0) {
     const object = currentIntersects[0].object;
 
@@ -265,14 +248,15 @@ function handleRaycasterInteraction() {
         newWindow.rel = "noopener noreferrer";
       }
     });
+
     if (object.name.includes("Botonwork")) {
-      showModal(modals.work);
+      modales.abrir("work");
     } else if (object.name.includes("BotonAbout")) {
-      showModal(modals.about);
+      modales.abrir("about");
     } else if (object.name.includes("Botoncontact")) {
-      showModal(modals.contact);
+      modales.abrir("contact");
     } else if (object.name.includes("Botonskills")) {
-      showModal(modals.skills);
+      modales.abrir("skills");
     }
   }
 }
@@ -352,12 +336,6 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
         child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
       }
       if (esAnimado(child.name)) {
-        console.log(
-          child.name,
-          child.rotation.x.toFixed(2),
-          child.rotation.y.toFixed(2),
-          child.rotation.z.toFixed(2),
-        );
         raycarterObjects.push(child);
         child.userData.initialScale = new THREE.Vector3().copy(child.scale);
         child.userData.initialPosition = new THREE.Vector3().copy(
@@ -483,10 +461,7 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
       } else {
         Object.keys(textureMap).forEach((key) => {
           if (child.name.includes(key)) {
-            const material = new THREE.MeshBasicMaterial({
-              map: loadedTextures.day[key],
-            });
-            child.material = material;
+            child.material = materialesCuarto[key];
 
             if (child.name.includes("ventilador")) {
               if (
@@ -499,18 +474,18 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
                 yAxisFans.push(child);
               }
             }
-
-            if (child.material.map) {
-              child.material.map.minFilter = THREE.LinearFilter;
-            }
           }
         });
       }
     }
   });
   scene.add(glb.scene);
-  playIntroAnimation();
-  animarSilla();
+
+  initTema({
+    escena: scene,
+    vidrio: glassMaterial,
+  });
+  carga.terminar();
 });
 
 function playIntroAnimation() {
@@ -750,6 +725,7 @@ function playHoverAnimation(object, isHovering) {
 }
 
 const render = () => {
+  window.requestAnimationFrame(render);
   controls.update();
   //console.log(camera.position);
   //console.log("00000000000000");
@@ -815,7 +791,6 @@ const render = () => {
     }
   }
   renderer.render(scene, camera);
-  window.requestAnimationFrame(render);
 };
 
 render();
