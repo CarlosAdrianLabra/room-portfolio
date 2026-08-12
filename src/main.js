@@ -7,6 +7,10 @@ import { initModales } from "./ui/modales.js";
 import { crearMaterialMezcla, initTema } from "./ui/tema.js";
 import { initAudio } from "./ui/audio.js";
 import { initCarga } from "./ui/carga.js";
+import { initWork } from "./ui/work.js";
+import { initAbout } from "./ui/about.js";
+import { initSkills } from "./ui/skills.js";
+import { initContact } from "./ui/contact.js";
 import gsap from "gsap";
 
 const canvas = document.querySelector("#experience-canvas");
@@ -14,7 +18,10 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
-
+initContact();
+initSkills();
+initAbout();
+initWork();
 let touchHappend = false;
 let isModalOpen = false;
 
@@ -211,7 +218,7 @@ window.addEventListener("mousemove", (e) => {
   pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
 });
 
-window.addEventListener(
+canvas.addEventListener(
   "touchstart",
   (e) => {
     if (isModalOpen) return;
@@ -222,7 +229,7 @@ window.addEventListener(
   { passive: false },
 );
 
-window.addEventListener(
+canvas.addEventListener(
   "touchend",
   (e) => {
     if (isModalOpen) return;
@@ -635,6 +642,9 @@ function animarSilla() {
 }
 
 const scene = new THREE.Scene();
+const FOV_BASE = 35;
+const MARGEN_MOVIL = 1.1;
+
 const camera = new THREE.PerspectiveCamera(
   35,
   sizes.width / sizes.height,
@@ -642,6 +652,26 @@ const camera = new THREE.PerspectiveCamera(
   1000,
 );
 camera.position.set(15.263077950431015, 12.877421225996272, 19.218189104367923);
+
+const ajustarProyeccion = () => {
+  const aspecto = sizes.width / sizes.height;
+  camera.aspect = aspecto;
+
+  if (aspecto >= 1) {
+    camera.fov = FOV_BASE;
+  } else {
+    // Convierte el FOV: "consérvame el ancho, no el alto".
+    camera.fov =
+      (Math.atan(
+        (Math.tan((FOV_BASE * Math.PI) / 360) / aspecto) * MARGEN_MOVIL,
+      ) *
+        360) /
+      Math.PI;
+  }
+
+  camera.updateProjectionMatrix();
+};
+ajustarProyeccion();
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(sizes.width, sizes.height);
@@ -665,9 +695,7 @@ window.addEventListener("resize", () => {
   sizes.width = window.innerWidth;
   sizes.height = window.innerHeight;
 
-  // Update Camara
-  camera.aspect = sizes.width / sizes.height;
-  camera.updateProjectionMatrix();
+  ajustarProyeccion();
 
   //Update renderer
   renderer.setSize(sizes.width, sizes.height);

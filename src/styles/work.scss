@@ -1,0 +1,255 @@
+/* =========================================================
+   work.scss — el contenido del modal WORK
+   .rol, .etiqueta y .etiquetas son compartidos a propósito:
+   los vas a reusar en Skills y About.
+   ========================================================= */
+
+$acento: #e0a04a;
+$texto: #f0ece4;
+$apagado: #9c968a;
+$tenue: #57524a;
+
+.work__intro {
+  font-size: 13px;
+  line-height: 1.6;
+  color: $apagado;
+  padding-bottom: 16px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.resalte {
+  color: $acento;
+}
+
+/* ---------------- Insignia de rol ---------------- */
+
+.rol {
+  flex: none;
+  padding: 4px 9px;
+  border-radius: 5px;
+  background: rgba(224, 160, 74, 0.1);
+  color: $acento;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Un proyecto que todavía no existe no se anuncia en ámbar. */
+.rol--estado {
+  background: rgba(255, 255, 255, 0.05);
+  color: $tenue;
+}
+
+/* ---------------- Etiquetas de tech ---------------- */
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.etiqueta {
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  color: #8d8477;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ---------------- Grupo plegable ---------------- */
+
+.grupo {
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 13px;
+  background: #17171c;
+  overflow: hidden;
+  transition:
+    border-color 220ms,
+    background 220ms;
+
+  &[open] {
+    border-color: rgba(224, 160, 74, 0.28);
+    background: #1a1a20;
+  }
+}
+
+.grupo__cabecera {
+  padding: 16px 17px;
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $acento;
+    outline-offset: -2px;
+  }
+}
+
+.grupo__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.grupo__nombre {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: $texto;
+}
+
+.grupo__meta {
+  margin-top: 7px;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: $tenue;
+}
+
+.grupo__resumen {
+  max-width: 62ch;
+  margin-top: 9px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: $apagado;
+}
+
+.grupo__cuerpo {
+  padding: 0 17px 17px;
+}
+
+.grupo__etiqueta {
+  margin: 18px 0 2px;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: $tenue;
+}
+
+/* ---------------- Proyecto destacado ---------------- */
+
+.proyecto {
+  margin-top: 9px;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  background: #141418;
+}
+
+.proyecto__fila {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.proyecto__nombre {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.05em;
+  color: $texto;
+}
+
+.proyecto__texto {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: $apagado;
+}
+
+.proyecto__enlace {
+  display: inline-block;
+  margin-top: 12px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(224, 160, 74, 0.3);
+  color: $acento;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom-color: $acento;
+  }
+}
+
+/* ---------------- Renglones compactos ---------------- */
+
+.mini {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 2px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.mini__nombre {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: #c9c2b6;
+  white-space: nowrap;
+}
+
+.mini__rol {
+  font-size: 12px;
+  color: #6d675c;
+  text-align: right;
+}
+
+/* ---------------- Móvil ---------------- */
+
+@media (max-width: 560px) {
+  .proyecto__fila {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .mini {
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .mini__rol {
+    text-align: left;
+  }
+}
+
+.grupo__cuerpo {
+  overflow: hidden; // sin esto el contenido se desborda al animar
+}
+
+.grupo__derecha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.grupo__flecha {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: #e0a04a;
+}

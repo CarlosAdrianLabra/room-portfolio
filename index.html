@@ -2,9 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="/favicon/favicon-48.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/favicon/favicon-96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/favicon/favicon-192.png"
+    />
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" />
+    <meta name="theme-color" content="#32343c" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>room-portapolio</title>
+    <title>Room portafolio</title>
   </head>
   <body>
     <div id="app"></div>
@@ -45,14 +70,12 @@
             class="panel__cerrar"
             type="button"
             data-cerrar
-            aria-label="Cerrar"
+            aria-label="Close"
           >
             ✕
           </button>
         </header>
-        <div class="panel__cuerpo">
-          <p>Contenido de Work.</p>
-        </div>
+        <div class="panel__cuerpo" id="work-lista"></div>
       </article>
     </div>
 
@@ -71,14 +94,12 @@
             class="panel__cerrar"
             type="button"
             data-cerrar
-            aria-label="Cerrar"
+            aria-label="Close"
           >
             ✕
           </button>
         </header>
-        <div class="panel__cuerpo">
-          <p>Contenido de About.</p>
-        </div>
+        <div class="panel__cuerpo" id="about-cuerpo"></div>
       </article>
     </div>
 
@@ -97,14 +118,12 @@
             class="panel__cerrar"
             type="button"
             data-cerrar
-            aria-label="Cerrar"
+            aria-label="Close"
           >
             ✕
           </button>
         </header>
-        <div class="panel__cuerpo">
-          <p>Contenido de Skills.</p>
-        </div>
+        <div class="panel__cuerpo" id="skills-cuerpo"></div>
       </article>
     </div>
 
@@ -123,14 +142,12 @@
             class="panel__cerrar"
             type="button"
             data-cerrar
-            aria-label="Cerrar"
+            aria-label="Close"
           >
             ✕
           </button>
         </header>
-        <div class="panel__cuerpo">
-          <p>Contenido de Contact.</p>
-        </div>
+        <div class="panel__cuerpo" id="contact-cuerpo"></div>
       </article>
     </div>
 

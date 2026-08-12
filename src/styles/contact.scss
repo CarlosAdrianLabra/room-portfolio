@@ -1,0 +1,156 @@
+/* =========================================================
+   contact.scss — el contenido del modal CONTACT
+   ========================================================= */
+
+$acento: #e0a04a;
+$texto: #f0ece4;
+$apagado: #9c968a;
+$tenue: #57524a;
+$verde: #7dba6f;
+
+.contacto__disponible {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.contacto__punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $verde;
+  box-shadow: 0 0 8px rgba(125, 186, 111, 0.6);
+}
+
+.contacto__estado {
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: $verde;
+}
+
+.contacto__sub {
+  margin-top: 12px;
+  font-size: 13px;
+  color: $apagado;
+}
+
+.contacto__busco {
+  margin: 8px 0 0;
+  padding-left: 16px;
+
+  li {
+    margin-bottom: 2px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: $apagado;
+  }
+}
+
+.contacto__lead {
+  margin-top: 22px;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-weight: 300;
+  font-size: 19px;
+  letter-spacing: 0.02em;
+  color: $texto;
+}
+
+/* ---------------- El correo copiable ---------------- */
+
+.contacto__correo {
+  display: flex;
+  margin-top: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: rgba(224, 160, 74, 0.45);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 13px 15px;
+    border: none;
+    background: #1a1a20;
+    color: #c9c2b6;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 13px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.contacto__copiar {
+  padding: 13px 18px;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  background: #1a1a20;
+  color: $acento;
+  font-family: "Oswald", "Arial Narrow", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 220ms;
+
+  &:hover {
+    background: rgba(224, 160, 74, 0.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $acento;
+    outline-offset: -2px;
+  }
+}
+
+.contacto__copiar--ok {
+  color: $verde;
+}
+
+.contacto__alt {
+  margin-top: 10px;
+  font-size: 11px;
+  color: $tenue;
+}
+
+.contacto__enlace-alt {
+  color: #8a7550;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(224, 160, 74, 0.2);
+
+  &:hover {
+    color: $acento;
+    border-bottom-color: $acento;
+  }
+}
+
+/* ---------------- Secundarios ---------------- */
+
+.contacto__secundarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.contacto__secundario {
+  font-size: 12px;
+  color: #8a7550;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(224, 160, 74, 0.2);
+  padding-bottom: 1px;
+
+  &:hover {
+    color: $acento;
+    border-bottom-color: $acento;
+  }
+}
