@@ -59,6 +59,7 @@ const socialLinks = {
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+const clock = new THREE.Clock();
 const musica = initAudio();
 
 const carga = initCarga({
@@ -142,6 +143,93 @@ const glassMaterial = new THREE.MeshPhysicalMaterial({
   envMapIntensity: 1,
   depthWrite: false,
 });
+
+const perlinTexture = textureLoader.load("/textures/steam/perlin.png");
+perlinTexture.wrapS = THREE.RepeatWrapping;
+perlinTexture.wrapT = THREE.RepeatWrapping;
+
+const smokeMaterial = new THREE.ShaderMaterial({
+  transparent: true,
+  depthWrite: false,
+  side: THREE.DoubleSide,
+  uniforms: {
+    uTime: { value: 0 },
+    uPerlinTexture: { value: perlinTexture },
+  },
+  vertexShader: `
+    uniform float uTime;
+    uniform sampler2D uPerlinTexture;
+
+    varying vec2 vUv;
+
+    vec2 rotate2D(vec2 value, float angle) {
+      float s = sin(angle);
+      float c = cos(angle);
+      mat2 m = mat2(c, s, -s, c);
+      return m * value;
+    }
+
+    void main() {
+      vec3 newPosition = position;
+
+      // Retorcido
+      float twist = texture(uPerlinTexture, vec2(0.5, uv.y * 0.2 - uTime * 0.005)).r;
+      newPosition.xz = rotate2D(newPosition.xz, twist * 3.0);
+
+      // Viento
+      vec2 wind = vec2(
+        texture(uPerlinTexture, vec2(0.25, uTime * 0.01)).r - 0.5,
+        texture(uPerlinTexture, vec2(0.75, uTime * 0.01)).r - 0.5
+      );
+      wind *= pow(uv.y, 2.0) * 1.5;
+      newPosition.xz += wind;
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+      vUv = uv;
+    }
+  `,
+  fragmentShader: `
+    uniform float uTime;
+    uniform sampler2D uPerlinTexture;
+
+    varying vec2 vUv;
+
+    void main() {
+      vec2 smokeUv = vUv;
+      smokeUv.x *= 0.5;
+      smokeUv.y *= 0.3;
+      smokeUv.y -= uTime * 0.03;
+
+      float smoke = texture(uPerlinTexture, smokeUv).r;
+      smoke = smoothstep(0.4, 1.0, smoke);
+
+      // Desvanece las 4 orillas
+      smoke *= smoothstep(0.0, 0.1, vUv.x);
+      smoke *= smoothstep(1.0, 0.9, vUv.x);
+      smoke *= smoothstep(0.0, 0.1, vUv.y);
+      smoke *= smoothstep(1.0, 0.4, vUv.y);
+
+      gl_FragColor = vec4(0.85, 0.85, 0.85, smoke * 0.7);
+      #include <colorspace_fragment>
+    }
+  `,
+});
+
+let humo;
+
+function crearHumo(Taza) {
+  const caja = new THREE.Box3().setFromObject(Taza);
+  const centro = caja.getCenter(new THREE.Vector3());
+  const tam = caja.getSize(new THREE.Vector3());
+
+  const geo = new THREE.PlaneGeometry(1, 1, 16, 64);
+  geo.translate(0, 0.5, 0);
+
+  humo = new THREE.Mesh(geo, smokeMaterial);
+  humo.position.set(centro.x, caja.max.y, centro.z);
+  humo.scale.set(tam.x * 0.7, tam.y * 2.0, tam.x * 0.7);
+  scene.add(humo);
+}
 
 const wallpaperTexture = textureLoader.load(
   "/textures/image/Gatoacostado.webp",
@@ -298,7 +386,7 @@ let btnAbout,
   placaYoutube,
   poro,
   mikasa,
-  taza,
+  Taza,
   sillaTop;
 
 const objetosAnimados = [
@@ -422,6 +510,9 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
       if (child.name.includes("SillaTOP")) {
         sillaTop = child;
       }
+      if (child.name.includes("Taza")) {
+        Taza = child;
+      }
       if (child.name.includes("Vidrio")) {
         child.material = glassMaterial;
       } else if (child.name.includes("Gatoacostado")) {
@@ -492,6 +583,7 @@ loader.load("/models/CuartoPortafolio26-v1.glb", (glb) => {
     escena: scene,
     vidrio: glassMaterial,
   });
+  crearHumo(Taza);
   carga.terminar();
 });
 
@@ -754,6 +846,7 @@ function playHoverAnimation(object, isHovering) {
 
 const render = () => {
   window.requestAnimationFrame(render);
+  smokeMaterial.uniforms.uTime.value = clock.getElapsedTime();
   controls.update();
   //console.log(camera.position);
   //console.log("00000000000000");
