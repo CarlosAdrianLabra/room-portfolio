@@ -35,7 +35,7 @@ export const grupos = [
         tags: ["SOAP", "CRM integration", "Payments", "AWS"],
       },
       {
-        nombre: "PrepaNáhuac Leads Dashboard",
+        nombre: "Prepa Anáhuac Leads Dashboard",
         rol: "Build & Integrate",
         destacado: true,
         descripcion:

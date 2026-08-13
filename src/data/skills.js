@@ -32,7 +32,7 @@ export const dominios = [
   {
     nombre: "Cloud & integrations",
     estado: "produccion",
-    evidencia: "PrepaNáhuac · Dentalia",
+    evidencia: "Prepa Anáhuac Leads Dashboard · Dentalia · Primero Seguros",
     nota: "Wiring third party systems together, with logs and alerts to prove it.",
     tecnologias: ["AWS Lambda", "API Gateway", "CloudWatch", "Webhooks"],
   },
